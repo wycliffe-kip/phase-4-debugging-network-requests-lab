@@ -11,16 +11,35 @@ class ToysController < ApplicationController
     render json: toy, status: :created
   end
 
+  def show
+    toy = Toy.find(params[:id])
+    render json: toy, status: :ok
+  end
+
   def update
     toy = Toy.find_by(id: params[:id])
     toy.update(toy_params)
+    render json: toy, status: :ok
   end
+
+  def increment_likes  
+    toy = Toy.find_by(id: params[:id])
+    toy.likes += 1 
+    toy.save
+    render json: toy, status: :ok
+  end 
 
   def destroy
     toy = Toy.find_by(id: params[:id])
     toy.destroy
     head :no_content
   end
+
+  def donate
+    toy = Toy.find_by(id: params[:id])
+    toy.destroy
+    head :no_content
+  end 
 
   private
   
